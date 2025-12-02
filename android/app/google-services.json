@@ -1,0 +1,295 @@
+{
+  "project_info": {
+    "project_number": "336276785355",
+    "project_id": "yp-core-dev-us",
+    "storage_bucket": "yp-core-dev-us.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:bbd5cc0262fa26221a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.admin.yp_core_admin_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:6c6e38136654e4db1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.main.yp_core_main_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:c98461674dba8d9c1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.biz.a_yp_core_mod_biz_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:0753795f97c8feaf1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.canvas.a_yp_core_mod_canvas_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:6a942fa7545d9b321a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.chat.a_yp_core_mod_chat_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:e0045b43acf8194b1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.common.a_yp_core_mod_common_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:1212c77e6b207a701a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.community.a_yp_core_mod_community_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:a2584ff1d3b5a6b51a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.game.a_yp_core_mod_game_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:a2683e52927172e61a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.laurus.a_yp_core_mod_laurus_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:be15b8b3183ac26a1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.lobby.a_yp_core_mod_lobby_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:c48b2b58f81bb39d1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.mate.a_yp_core_mod_mate_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:649e24b4836541a61a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.oasis.a_yp_core_mod_oasis_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:d1880bdf663847001a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.store.a_yp_core_mod_store_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:bda1e8f47bd0359e1a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.story.a_yp_core_mod_story_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336276785355:android:f67aa2d070b469931a334e",
+        "android_client_info": {
+          "package_name": "com.yplantae.core.mod.user.a_yp_core_mod_user_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6_8phcs7BRecJ30KKllezOjCnNEOb4_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

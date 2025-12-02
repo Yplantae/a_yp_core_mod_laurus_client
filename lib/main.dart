@@ -1,122 +1,194 @@
+import 'package:a_yp_core_mod_common_client/common/image/image_screen.dart';
+import 'package:a_yp_core_mod_common_client/common/navigator/global_router.dart';
+import 'package:a_yp_core_mod_common_client/common/navigator/navi.dart';
+import 'package:a_yp_core_mod_common_client/common/web/web_view_screen.dart';
+import 'package:a_yp_core_mod_common_client/localization/loc.dart';
+import 'package:a_yp_core_mod_common_client/policy/policy_service.dart';
+import 'package:a_yp_core_mod_common_client/system/system.dart';
+import 'package:a_yp_core_mod_laurus_client/firebase_options.dart';
+import 'package:a_yp_core_mod_laurus_client/member/group/group_management_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/milestone/milestone_map_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/project/exp/create_project_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/project/exp/project_config_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/zulu/zulu_test_01_screen.dart';
+import 'package:a_yp_core_mod_user_client/account/login/login_screen.dart';
+import 'package:a_yp_core_mod_user_client/account/logout/logout_screen.dart';
+import 'package:a_yp_core_mod_user_client/profile/my_profile_screen.dart';
+import 'package:a_yp_core_mod_user_client/push/push_service.dart';
+import 'package:a_yp_core_mod_user_client/user/info/user_info_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-void main() {
-  runApp(const MyApp());
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await AppInitializer.ensureInitialized();
+  PushService.instance.pushReceiver.onBackgroundMessageReceived(message);
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+Future<void> main() async {
+  setUrlStrategy(PathUrlStrategy());
 
-  // This widget is the root of your application.
+  await AppInitializer.ensureInitialized();
+
+  runApp(InitScreen());
+}
+
+Widget errorScreen(dynamic detailsException) {
+  return Scaffold(
+    body: Padding(
+      padding: EdgeInsets.all(20.0),
+      child: SingleChildScrollView(
+        child: Text('$detailsException'),
+      ),
+    ),
+  );
+}
+
+class AppInitializer {
+  static bool _initialized = false;
+
+  static Future<void> ensureInitialized() async {
+    if (_initialized) return;
+
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    _initialized = true;
+  }
+}
+
+class InitScreen extends StatefulWidget {
+  @override
+  State<InitScreen> createState() => _InitScreenState();
+}
+
+class _InitScreenState extends State<InitScreen> {
+  late final GoRouter _router = GoRouter(
+    initialLocation: Navi.root,
+    routes: [
+      GoRoute(
+        path: Navi.root,
+        builder: (context, state) {
+          return _buildScreen(Test01Screen());
+        },
+      ),
+      GoRoute(
+        path: '/CreateProjectScreen',
+        builder: (context, state) {
+          final args = CreateProjectScreen.argProc(state);
+          return _buildScreen(CreateProjectScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/ProjectConfigScreen",
+        builder: (context, state) {
+          final args = ProjectConfigScreen.argProc(state);
+          return _buildScreen(ProjectConfigScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/MileStoneMapScreen",
+        builder: (context, state) {
+          final args = MileStoneMapScreen.argProc(state);
+          return _buildScreen(MileStoneMapScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/GroupManagementScreen",
+        builder: (context, state) {
+          final args = GroupManagementScreen.argProc(state);
+          return _buildScreen(GroupManagementScreen(args));
+        },
+      ),
+    ],
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (PushService.instance.initialPushMessagePayload != null) {
+      Future.microtask(() {
+        SchedulerBinding.instance.endOfFrame.then((_) {
+          PushService.instance.pushReceiver.handleNotiTapFromInitPayload(PushService.instance.initialPushMessagePayload!);
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+    GlobalRouter.router = _router;
+
+    return MaterialApp.router(
+      routerConfig: _router,
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ko', 'KR'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      builder: (context, child) => ResponsiveBreakpoints.builder(
+        breakpoints: [
+          const Breakpoint(start: 0, end: 450, name: MOBILE),
+          const Breakpoint(start: 451, end: 800, name: TABLET),
+          const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+          const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+        ],
+        child: child!,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+  _buildScreen(Widget child) {
+    return ResponsiveBreakpoints(
+      breakpoints: const [
+        Breakpoint(start: 0, end: 480, name: MOBILE),
+        Breakpoint(start: 481, end: 1200, name: TABLET),
+        Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
+      ],
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF5F5F5),
+        body: Container(
+          alignment: Alignment.center,
+          child: MaxWidthBox(
+            maxWidth: 1200,
+            child: Container(
+              color: Colors.white,
+              child: child,
             ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
+  }
+
+  Map<String, dynamic> _argProc(GoRouterState state) {
+    Map<String, dynamic> args = {};
+    final queryParams = state.uri.queryParameters;
+    if (state.extra != null && state.extra is Map<String, dynamic>) {
+      args = Map<String, dynamic>.from(state.extra as Map);
+    }
+    args.addAll(queryParams);
+    return args;
   }
 }

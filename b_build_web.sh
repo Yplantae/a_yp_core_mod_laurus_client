@@ -1,1 +1,1 @@
-flutter build web --release --pwa-strategy=none
+flutter build web --web-renderer html --release --no-sound-null-safety

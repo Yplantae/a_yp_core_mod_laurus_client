@@ -1,0 +1,164 @@
+{
+  "please_login_first": "먼저 로그인 해주세요.",
+
+  "ok": "확인",
+  "cancel": "취소",
+  "yes": "예",
+  "no": "아니오",
+
+  "approve": "승인",
+  "deny": "거절",
+  "approved": "승인됨",
+  "denied": "거절됨",
+
+  "create": "생성",
+  "delete": "삭제",
+
+  "release": "풀기",
+  "block": "블럭",
+
+  "blog": "블로그",
+  "gallery": "갤러리",
+
+  "empty": "비어 있음",
+
+  "error": "오류",
+
+  "title": "와이피",
+  "thisIs": "이것은 %a 패키지이며, %a 버전입니다..",
+
+  "nickname": "닉네임",
+  "sample_profile_nickname": "애비 윌슨",
+  "nickname_is_empty": "닉네임이 없습니다",
+
+  "first_name": "이름",
+  "sample_profile_first_name": "애비",
+  "first_name_is_empty": "이름이 없습니다",
+
+  "last_name": "성",
+  "sample_profile_last_name": "윌슨",
+  "last_name_is_empty": "성이 없습니다",
+
+  "middle_name": "중간 이름",
+  "sample_profile_middle_name": "마리",
+  "middle_name_is_empty": "중간 이름이 없습니다",
+
+  "age": "나이",
+  "date_of_birth": "생년월일",
+  "sample_profile_date_of_birth": "1992-07-15",
+  "date_of_birth_is_empty": "생년월일이 없습니다",
+
+  "age.early": "{0}대 초반",
+  "age.mid": "{0}대 중반",
+  "age.late": "{0}대 후반",
+  "age.under10": "10세 미만",
+  "age.over100": "100세 초과",
+  "age.unknown": "알 수 없음",
+
+  "gender": "성별",
+  "sample_profile_gender": "여성",
+  "gender_is_empty": "알 수 없음",
+
+  "phone_number": "전화번호",
+  "sample_profile_phone_number": "+82 010-1234-5678",
+  "phone_number_is_empty": "알 수 없음",
+
+  "address": "주소",
+  "sample_profile_address": "서울시 강남구 테헤란로",
+  "address_is_empty": "알 수 없음",
+
+  "location": "위치",
+  "sample_profile_location": "강남",
+  "location_is_empty": "알 수 없음",
+
+  "profile_image_url": "프로필 이미지 URL",
+  "sample_profile_profile_image_url": "https://example.com/profile.jpg",
+  "profile_image_url_is_empty": "프로필 이미지 URL이 없습니다",
+
+  "message": "메시지",
+  "sample_profile_message": "안녕하세요, 애비입니다!",
+  "message_is_empty": "메시지가 없습니다",
+
+  "hobby_list": "취미",
+  "sample_profile_hobby_list": "운동, 명상",
+  "hobby_list_is_empty": "알 수 없음",
+
+  "mate_list": "친구들",
+  "sample_profile_mate_list": "앨리스, 밥, 찰리",
+  "mate_list_is_empty": "알 수 없음",
+
+  "rates": "평점",
+  "sample_profile_rates": "3.7",
+  "appearance_rate": "외모 평점",
+  "sample_profile_rates_appearance": "4.5",
+  "appearance_rate_is_empty": "외모 평점이 없습니다",
+
+  "manner_rate": "매너 평점",
+  "sample_profile_rates_manner": "4.2",
+  "manner_rate_is_empty": "매너 평점이 없습니다",
+
+  "authenticity_rate": "진정성 평점",
+  "sample_profile_rates_authenticity": "4.8",
+  "authenticity_rate_is_empty": "진정성 평점이 없습니다",
+
+  "humor_rate": "유머 평점",
+  "sample_profile_rates_humor": "4.7",
+  "humor_rate_is_empty": "유머 평점이 없습니다",
+
+  "personality_rate": "성격 평점",
+  "sample_profile_rates_personality": "4.6",
+  "personality_rate_is_empty": "성격 평점이 없습니다",
+
+  "order": "순서",
+  "sample_profile_order": "1",
+  "order_is_empty": "순서가 없습니다",
+
+  "mate_link" : "친구 신청",
+  "send_mate_request" : "친구를 신청하시겠습니까?",
+  "mate_link_requested": "친구 신청이 진행중입니다.",
+  "mate_link_received": "친구 신청을 수락하시겠습니까?",
+  "mate_link_approved": "승인됨",
+  "mate_link_denied": "거절됨",
+  "mate_link_deleted": "삭제됨",
+  "id_is_empty" : "ID 가 비었습니다. 다시 시도 해주세요.",
+
+  "chat_room": "챗룸",
+  "chat_room_description": "대화로 즐거운 하루를!!!",
+  "chat_room_created": "채팅방이 생성되었습니다.",
+  "chat_room_updated": "채팅방이 업데이트되었습니다.",
+  "participant_added": "참여자가 채팅방에 추가되었습니다.",
+  "participant_removed": "참여자가 채팅방에서 제거되었습니다.",
+  "participant_role_changed": "참여자의 역할이 채팅방에서 변경되었습니다.",
+  "chat_room_status_updated": "채팅방 상태가 업데이트되었습니다.",
+  "chat_room_property_changed": "채팅방 속성이 변경되었습니다.",
+  "chat_room_error": "채팅방 처리 중 오류가 발생했습니다.",
+  "participant_error": "참여자 처리 중 오류가 발생했습니다.",
+
+
+  "account": "계정",
+  "login_required": "로그인 필요",
+  "email": "이메일",
+  "birth_year": "출생 연도",
+  "save": "저장하기",
+
+  "required_email": "이메일을 입력해주세요.",
+  "invalid_email": "유효한 이메일을 입력해주세요.",
+  "required_nickname": "닉네임을 입력해주세요.",
+  "required_birth_year": "출생년도를 선택해주세요.",
+  "required_gender": "성별을 선택해주세요.",
+
+  "male": "남성",
+  "female": "여성",
+  "other": "기타",
+
+  "profile": "프로필",
+
+  "game": "게임",
+  "compilation": "집계",
+  "score": "점수",
+  "ranking": "순위",
+
+  "lobby": "로비",
+  "people": "사람들",
+  "forum": "포럼"
+}

@@ -1,0 +1,163 @@
+{
+  "please_login_first": "Please log-in first",
+
+  "ok": "Okay",
+  "cancel": "Cancel",
+  "yes": "Yes",
+  "no": "No",
+
+  "approve": "Approve",
+  "deny": "Deny",
+  "approved": "Approved",
+  "denied": "Denied",
+
+  "create": "Create",
+  "delete": "Delete",
+
+  "release": "Release",
+  "block": "Block",
+
+  "blog": "Blog",
+  "gallery": "Gallery",
+
+  "empty": "Empty",
+
+  "error": "Error",
+
+  "title": "Yp Core",
+  "thisIs": "This is %a package, version %a.",
+
+  "nickname": "Nickname",
+  "sample_profile_nickname": "Abbie Wilson",
+  "nickname_is_empty": "Nick Name is empty",
+
+  "first_name": "First Name",
+  "sample_profile_first_name": "Abbie",
+  "first_name_is_empty": "First Name is empty",
+
+  "last_name": "Last Name",
+  "sample_profile_last_name": "Wilson",
+  "last_name_is_empty": "Last Name is empty",
+
+  "middle_name": "Middle Name",
+  "sample_profile_middle_name": "Marie",
+  "middle_name_is_empty": "Middle Name is empty",
+
+  "age": "Age",
+  "date_of_birth": "Date of Birth",
+  "sample_profile_date_of_birth": "Early 30's",
+  "date_of_birth_is_empty": "Date of Birth is empty",
+
+  "age.early": "Early {0}s",
+  "age.mid": "Mid {0}s",
+  "age.late": "Late {0}s",
+  "age.under10": "Under 10 years old",
+  "age.over100": "Over 100 years old",
+  "age.unknown": "Unknown",
+
+  "gender": "Gender",
+  "sample_profile_gender": "Female",
+  "gender_is_empty": "Empty",
+
+  "phone_number": "Phone Number",
+  "sample_profile_phone_number": "+1 555-1234",
+  "phone_number_is_empty": "Empty",
+
+  "address": "Address",
+  "sample_profile_address": "123 Main St, Springfield",
+  "address_is_empty": "Empty",
+
+  "location": "Location",
+  "sample_profile_location": "Springfield",
+  "location_is_empty": "Empty",
+
+  "profile_image_url": "Profile Image URL",
+  "sample_profile_profile_image_url": "https://example.com/profile.jpg",
+  "profile_image_url_is_empty": "Profile Image URL is empty",
+
+  "message": "Message",
+  "sample_profile_message": "Hello, I'm Abbie!",
+  "message_is_empty": "Message is empty",
+
+  "hobby": "Hobby",
+  "sample_profile_hobby_list": "Exercise, Meditation",
+  "hobby_list_is_empty": "Empty",
+
+  "mate_list": "Mate List",
+  "sample_profile_mate_list": "Alice, Bob, Charlie",
+  "mate_list_is_empty": "Empty",
+
+  "rates": "Rates",
+  "sample_profile_rates": "3.7",
+  "appearance_rate": "Appearance Rate",
+  "sample_profile_rates_appearance": "4.5",
+  "appearance_rate_is_empty": "Appearance Rate is empty",
+
+  "manner_rate": "Manner Rate",
+  "sample_profile_rates_manner": "4.2",
+  "manner_rate_is_empty": "Manner Rate is empty",
+
+  "authenticity_rate": "Authenticity Rate",
+  "sample_profile_rates_authenticity": "4.8",
+  "authenticity_rate_is_empty": "Authenticity Rate is empty",
+
+  "humor_rate": "Humor Rate",
+  "sample_profile_rates_humor": "4.7",
+  "humor_rate_is_empty": "Humor Rate is empty",
+
+  "personality_rate": "Personality Rate",
+  "sample_profile_rates_personality": "4.6",
+  "personality_rate_is_empty": "Personality Rate is empty",
+
+  "order": "Order",
+  "sample_profile_order": "1",
+  "order_is_empty": "Order is empty",
+
+  "mate_link" : "Mate Request",
+  "send_mate_request" : "Would you like to send a mate request?",
+  "mate_link_requested": "Mate link application is in progress.",
+  "mate_link_received": "Would you like to accept my friend's application?",
+  "mate_link_approved": "Approved",
+  "mate_link_denied": "Denied",
+  "mate_link_deleted": "Deleted",
+  "id_is_empty" : "ID is empty. Please try again",
+
+  "chat_room": "Chat Room",
+  "chat_room_description": "Have a great day with chat :)",
+  "chat_room_created": "Chat Room has been created.",
+  "chat_room_updated": "Chat Room has been updated.",
+  "participant_added": "Participant has been added to the Chat Room.",
+  "participant_removed": "Participant has been removed from the Chat Room.",
+  "participant_role_changed": "Participant's role in the Chat Room has been changed.",
+  "chat_room_status_updated": "Chat Room status has been updated.",
+  "chat_room_property_changed": "Chat Room properties have been changed.",
+  "chat_room_error": "An error occurred while processing the Chat Room.",
+  "participant_error": "An error occurred while processing the Participant.",
+
+  "account": "Account",
+  "login_required": "Login required",
+  "email": "Email",
+  "birth_year": "Birth Year",
+  "save": "Save",
+
+  "required_email": "Please enter your email.",
+  "invalid_email": "Please enter a valid email address.",
+  "required_nickname": "Please enter your nickname.",
+  "required_birth_year": "Please select your birth year.",
+  "required_gender": "Please select your gender.",
+
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+
+  "profile": "Profile",
+
+  "game": "Game",
+  "compilation": "Compilation",
+  "score": "Score",
+  "ranking": "Ranking",
+
+  "lobby": "Lobby",
+  "people": "People",
+  "forum": "Forum"
+}

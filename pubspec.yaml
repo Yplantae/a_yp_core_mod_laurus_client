@@ -31,9 +31,67 @@ dependencies:
   flutter:
     sdk: flutter
 
+  table_calendar: ^3.2.0
+  animated_tree_view: ^2.3.0
+  uuid: ^4.5.2
+
+  #  a_yp_core_mod_common_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_common_client.git
+  #      ref: main
+  #
+  #  a_yp_core_mod_user_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_user_client.git
+  #      ref: main
+  #
+  #  a_yp_core_mod_biz_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_biz_client.git
+  #      ref: main
+  #
+  #  a_yp_core_mod_chat_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_chat_client.git
+  #      ref: main
+  #
+  #  a_yp_core_mod_mate_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_mate_client.git
+  #      ref: main
+  #
+  #  a_yp_core_mod_game_client:
+  #    git:
+  #      url: git@github.com:yplantae-dev/a_yp_core_mod_game_client.git
+  #      ref: main
+
+  a_yp_core_mod_common_client:
+    path: ../../2_Common/a_yp_core_mod_common_client
+
+  a_yp_core_mod_user_client:
+    path: ../../3_User/a_yp_core_mod_user_client
+
+  a_yp_core_mod_biz_client:
+    path: ../../4_Biz/a_yp_core_mod_biz_client
+
+  a_yp_core_mod_story_client:
+    path: ../../5_Story/a_yp_core_mod_story_client
+
+  a_yp_core_mod_mate_client:
+    path: ../../7_Mate/a_yp_core_mod_mate_client
+
+  a_yp_core_mod_game_client:
+    path: ../../8_Game/a_yp_core_mod_game_client
+
+  flutter_staggered_grid_view: ^0.7.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+
+dependency_overrides:
+  intl: ^0.20.1
+  vector_math: 2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +109,14 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/localization/en_US.json
+    - assets/localization/ko_KR.json
+    - assets/dashboard_res/
+    - assets/dashboard_res/box/
+    - assets/dashboard_res/pic/
+    - assets/dashboard_res/ss/ 
+  
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
