@@ -5,6 +5,8 @@ import 'package:a_yp_core_mod_common_client/common/web/web_view_screen.dart';
 import 'package:a_yp_core_mod_common_client/localization/loc.dart';
 import 'package:a_yp_core_mod_common_client/policy/policy_service.dart';
 import 'package:a_yp_core_mod_common_client/system/system.dart';
+import 'package:a_yp_core_mod_laurus_client/category/presentation/screen/category_management_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/permission//presentation/screen/permission_management_screen.dart';
 import 'package:a_yp_core_mod_laurus_client/firebase_options.dart';
 import 'package:a_yp_core_mod_laurus_client/group/presentation/screen/group_management_screen.dart';
 import 'package:a_yp_core_mod_laurus_client/member/screens/member_list_screen.dart';
@@ -121,6 +123,20 @@ class _InitScreenState extends State<InitScreen> {
         builder: (context, state) {
           final args = GroupManagementScreen.argProc(state);
           return _buildScreen(GroupManagementScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/CategoryManagementScreen",
+        builder: (context, state) {
+          final args = CategoryManagementScreen.argProc(state);
+          return _buildScreen(CategoryManagementScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/PermissionManagementScreen",
+        builder: (context, state) {
+          final args = PermissionManagementScreen.argProc(state);
+          return _buildScreen(PermissionManagementScreen(args));
         },
       ),
     ],

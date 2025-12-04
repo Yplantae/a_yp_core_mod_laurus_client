@@ -62,35 +62,49 @@ class _Test01PageState extends State<Test01Page> {
                 onPressed: () async {
                   LauCmn.pushWithParams(context, '/CreateProjectScreen', {"paramA": 111, "paramB": "aaa"});
                 },
-                child: Text('CreateProjectScreen'),
+                child: Text('Create Project'),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   LauCmn.pushWithParams(context, '/ProjectConfigScreen', {"paramA": 111, "paramB": "aaa"});
                 },
-                child: Text('ProjectConfigScreen'),
+                child: Text('Project Config'),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   LauCmn.pushWithParams(context, '/MileStoneMapScreen', {"paramA": 111, "paramB": "aaa"});
                 },
-                child: Text('MileStoneMapScreen'),
+                child: Text('MileStone'),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   LauCmn.pushWithParams(context, '/MemberListScreen', {"projectId": "seed-test-project-01"});
                 },
-                child: Text('MemberListScreen'),
+                child: Text('Member List'),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   LauCmn.pushWithParams(context, '/GroupManagementScreen', {"projectId": "seed-test-project-01"});
                 },
-                child: Text('GroupManagementScreen'),
+                child: Text('Group Management'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  LauCmn.pushWithParams(context, '/CategoryManagementScreen', {"projectId": "seed-test-project-01"});
+                },
+                child: Text('Category Management'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  LauCmn.pushWithParams(context, '/PermissionManagementScreen', {"projectId": "seed-test-project-01"});
+                },
+                child: Text('Permission Management'),
               ),
               SizedBox(height: 16),
 
