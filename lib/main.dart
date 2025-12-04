@@ -6,7 +6,8 @@ import 'package:a_yp_core_mod_common_client/localization/loc.dart';
 import 'package:a_yp_core_mod_common_client/policy/policy_service.dart';
 import 'package:a_yp_core_mod_common_client/system/system.dart';
 import 'package:a_yp_core_mod_laurus_client/firebase_options.dart';
-import 'package:a_yp_core_mod_laurus_client/member/group/group_management_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/group/presentation/screen/group_management_screen.dart';
+import 'package:a_yp_core_mod_laurus_client/member/screens/member_list_screen.dart';
 import 'package:a_yp_core_mod_laurus_client/milestone/milestone_map_screen.dart';
 import 'package:a_yp_core_mod_laurus_client/project/exp/create_project_screen.dart';
 import 'package:a_yp_core_mod_laurus_client/project/exp/project_config_screen.dart';
@@ -106,6 +107,13 @@ class _InitScreenState extends State<InitScreen> {
         builder: (context, state) {
           final args = MileStoneMapScreen.argProc(state);
           return _buildScreen(MileStoneMapScreen(args));
+        },
+      ),
+      GoRoute(
+        path: "/MemberListScreen",
+        builder: (context, state) {
+          final args = MemberListScreen.argProc(state);
+          return _buildScreen(MemberListScreen(args));
         },
       ),
       GoRoute(

@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:a_yp_core_mod_common_client/common/cmn.dart';
 import 'package:a_yp_core_mod_laurus_client/common/lau_cmn.dart';
+import 'package:a_yp_core_mod_laurus_client/member/domain/member_models.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Test01Screen extends StatelessWidget {
   const Test01Screen();
@@ -76,9 +81,23 @@ class _Test01PageState extends State<Test01Page> {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  LauCmn.pushWithParams(context, '/GroupManagementScreen', {"paramA": 111, "paramB": "aaa"});
+                  LauCmn.pushWithParams(context, '/MemberListScreen', {"projectId": "seed-test-project-01"});
+                },
+                child: Text('MemberListScreen'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  LauCmn.pushWithParams(context, '/GroupManagementScreen', {"projectId": "seed-test-project-01"});
                 },
                 child: Text('GroupManagementScreen'),
+              ),
+              SizedBox(height: 16),
+
+              ElevatedButton(
+                onPressed: () async {
+                },
+                child: Text('Member-Group Test Data Injection'),
               ),
               SizedBox(height: 16),
             ],

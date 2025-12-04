@@ -25,6 +25,9 @@ class TimelineProvider extends ChangeNotifier {
   // [Fix] UI 강제 리빌드를 위한 레이아웃 버전 키
   int _layoutVersion = 0;
 
+  // [Fix] 노드 확장 상태 관리 (TreeNode.isExpanded가 Read-only일 경우 대비)
+  final Set<String> _expandedNodeKeys = {};
+
   String? _focusedTrackId;
   String? _selectedBoxId;
 
@@ -69,8 +72,25 @@ class TimelineProvider extends ChangeNotifier {
 
     _focusedTrackId = 'track_a1';
 
+    // [Fix] 초기 그룹 노드들을 펼침 상태로 등록
+    _expandedNodeKeys.add('group_a');
+    // Root의 다른 자식들도 필요하면 추가
+
     // [Debug] 초기 상태 트리 출력
     _logTreeStructure("Initial State");
+  }
+
+  // --- Expansion State Management ---
+  bool isNodeExpanded(String key) => _expandedNodeKeys.contains(key);
+
+  void setNodeExpanded(String key, bool expanded) {
+    if (expanded) {
+      _expandedNodeKeys.add(key);
+    } else {
+      _expandedNodeKeys.remove(key);
+    }
+    // Note: 여기서는 notifyListeners()를 호출하지 않아도 됨 (UI interaction이 주도하므로)
+    // 하지만 상태 동기화를 확실히 하려면 호출해도 무방함.
   }
 
   // --- Viewport & Zoom ---
@@ -217,6 +237,11 @@ class TimelineProvider extends ChangeNotifier {
 
     targetParent.add(newNode);
 
+    // [Fix] 추가된 노드의 부모는 반드시 펼쳐져 있어야 함
+    if(targetParent != _project.rootTrackNode) {
+      _expandedNodeKeys.add(targetParent.key);
+    }
+
     // [Fix] 구조 변경 시 버전 증가 및 로그 출력
     _layoutVersion++;
     AppLogger.log('[Provider]', 'Track Added: "$title" to "${targetParent.data?.title ?? 'Root'}"');
@@ -275,16 +300,25 @@ class TimelineProvider extends ChangeNotifier {
     switch (slot) {
       case DropSlot.center:
         targetNode.add(sourceNode); // 자식으로 추가 (맨 뒤)
+        // [Fix] 자식으로 들어갔으므로 타겟 노드는 펼쳐져야 함 (Set 업데이트)
+        _expandedNodeKeys.add(targetNode.key);
         AppLogger.log('[Provider-Move]', 'Added as Child');
         break;
 
       case DropSlot.above:
         _insertSibling(targetNode, sourceNode, isAfter: false);
+        // 형제로 들어갔으므로 타겟의 부모가 펼쳐져야 함
+        if(targetNode.parent != null && targetNode.parent != _project.rootTrackNode) {
+          _expandedNodeKeys.add(targetNode.parent!.key);
+        }
         AppLogger.log('[Provider-Move]', 'Inserted Above Sibling');
         break;
 
       case DropSlot.below:
         _insertSibling(targetNode, sourceNode, isAfter: true);
+        if(targetNode.parent != null && targetNode.parent != _project.rootTrackNode) {
+          _expandedNodeKeys.add(targetNode.parent!.key);
+        }
         AppLogger.log('[Provider-Move]', 'Inserted Below Sibling');
         break;
     }
@@ -334,12 +368,15 @@ class TimelineProvider extends ChangeNotifier {
     }
 
     // 4. [Critical] 부모 노드 초기화 후 순서대로 재삽입
-    // 이렇게 해야 AnimatedTreeView가 변경된 순서를 정확히 인식하고,
-    // Ghosting(중복) 문제도 해결됨.
     parent.clear(); // 모든 자식 제거
 
     for (final node in siblings) {
       parent.add(node);
+    }
+
+    // [Fix] 부모 펼침 상태 유지
+    if(parent != _project.rootTrackNode) {
+      _expandedNodeKeys.add(parent.key);
     }
   }
 

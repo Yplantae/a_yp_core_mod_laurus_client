@@ -106,7 +106,6 @@ class TimelineScreenState extends State<TimelineScreen> {
                     children: [
                       TreeView.simple(
                         // [Critical Fix] Provider의 layoutVersion이 바뀌면 TreeView를 강제로 다시 그림
-                        // 이를 통해 데이터 변경 후 잔상(Ghosting) 문제를 해결함
                         key: ValueKey(provider.layoutVersion),
 
                         tree: provider.project.rootTrackNode,
@@ -114,8 +113,8 @@ class TimelineScreenState extends State<TimelineScreen> {
                         expansionBehavior: ExpansionBehavior.scrollToLastChild,
                         onTreeReady: (controller) {
                           _treeController = controller;
-                          // 리빌드 시 트리가 접히는 것을 방지하기 위해 전체 확장 (필요시 제거 가능)
-                          controller.expandAllChildren(provider.project.rootTrackNode);
+                          // [Fix] Provider의 확장 상태 정보를 기반으로 View 동기화
+                          _syncTreeExpansion(controller, provider.project.rootTrackNode, provider);
                         },
                         builder: (context, node) {
                           final trackNode = node as TrackNode;
@@ -185,6 +184,16 @@ class TimelineScreenState extends State<TimelineScreen> {
         onPressed: () => _handleFabClick(context, provider),
       ),
     );
+  }
+
+  // [New Helper] Provider의 상태를 뷰 컨트롤러에 적용
+  void _syncTreeExpansion(TreeViewController controller, TrackNode node, TimelineProvider provider) {
+    if (provider.isNodeExpanded(node.key)) {
+      controller.expandNode(node);
+    }
+    for (var child in node.children.values) {
+      _syncTreeExpansion(controller, child as TrackNode, provider);
+    }
   }
 
   Widget _buildResizableRow(BuildContext context, TimelineProvider provider, TrackNode node, double height) {
@@ -349,6 +358,8 @@ class TimelineScreenState extends State<TimelineScreen> {
 
   Widget _buildHeaderContent(BuildContext context, TimelineProvider provider, TrackNode node, {bool isFeedback = false}) {
     final isFocused = provider.focusedTrackId == node.data?.id;
+    // [Fix] Provider의 확장 상태 확인
+    final isExpanded = provider.isNodeExpanded(node.key);
 
     return Container(
       color: (!isFeedback && isFocused) ? Colors.blue.withOpacity(0.2) : Colors.transparent,
@@ -360,9 +371,13 @@ class TimelineScreenState extends State<TimelineScreen> {
             child: node.children.isNotEmpty
                 ? InkWell(
               onTap: () {
-                if (!isFeedback && _treeController != null) _treeController!.toggleExpansion(node);
+                if (!isFeedback && _treeController != null) {
+                  // [Fix] Provider 상태와 View 상태 함께 업데이트
+                  _treeController!.toggleExpansion(node);
+                  provider.setNodeExpanded(node.key, !isExpanded);
+                }
               },
-              child: Icon(node.isExpanded ? Icons.expand_more : Icons.chevron_right, size: 16, color: Colors.white70),
+              child: Icon(isExpanded ? Icons.expand_more : Icons.chevron_right, size: 16, color: Colors.white70),
             )
                 : null,
           ),
