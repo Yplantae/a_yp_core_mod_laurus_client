@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '13.0'
+platform :ios, '15.6'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -28,7 +28,7 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
-  use_frameworks!
+  use_frameworks! :linkage => :static
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
@@ -38,6 +38,30 @@ end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
+    # Flutter 기본 설정
     flutter_additional_ios_build_settings(target)
+
+    target.build_configurations.each do |config|
+      # 1) 시뮬레이터 arm64 제외 (ffmpeg_kit_flutter_new 또는 Pods-Runner 대상)
+      if target.name.include?('ffmpeg_kit_flutter_new') || target.name == 'Pods-Runner'
+        key = 'EXCLUDED_ARCHS[sdk=iphonesimulator*]'
+        existing = config.build_settings[key]
+        config.build_settings[key] = [existing, 'arm64'].compact.join(' ').strip
+      end
+
+      # 2) permission_handler 전처리기 플래그
+      defs = config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+      defs |= [
+        'PERMISSION_CAMERA=1',
+        'PERMISSION_PHOTOS=1',
+        'PERMISSION_PHOTOS_ADD_ONLY=1',
+        'PERMISSION_MICROPHONE=1',
+        'PERMISSION_LOCATION_WHEN_IN_USE=1',
+        # 'PERMISSION_LOCATION_ALWAYS=0', # 필요 없으면 생략/0
+        'PERMISSION_NOTIFICATIONS=1',
+        'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
+      ]
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = defs
+    end
   end
 end

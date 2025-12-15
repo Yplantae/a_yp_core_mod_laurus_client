@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Yp Mod Laurus</string>
+    <string name="notification_channel_general">일반 알림</string>
+    <string name="notification_channel_marketing">마케팅 알림</string>
+</resources>

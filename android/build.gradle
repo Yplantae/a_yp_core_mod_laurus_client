@@ -1,5 +1,25 @@
+// android/build.gradle
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // ⬇⬇ AGP 버전 통일
+        classpath 'com.android.tools.build:gradle:8.9.1'
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
 allprojects {
-    ext.kotlin_version = '2.1.10'
+    ext {
+        kotlin_version = '2.0.21'
+        // ⬇⬇ 이제 공식 compileSdk 기준은 36 로 올림
+        compile_sdk_version = 36
+        ndk_version = "27.0.12077973"
+    }
 
     repositories {
         google()
@@ -13,11 +33,30 @@ allprojects {
                     if (namespace == null) {
                         namespace project.group
                     }
-                    compileSdkVersion 36
+
+                    // ⬇⬇ 하드코딩 35 → 통일된 ext 값 사용
+                    compileSdkVersion rootProject.ext.compile_sdk_version
 
                     compileOptions {
                         sourceCompatibility JavaVersion.VERSION_17
                         targetCompatibility JavaVersion.VERSION_17
+                    }
+
+                    // 개별 모듈에서도 ndkVersion을 설정할 수 있도록 명시
+                    ndkVersion rootProject.ext.ndk_version
+
+                    // ★ 모든 Android 모듈의 최소 minSdk를 21 이상으로 강제 (기존 유지)
+                    def cfg = defaultConfig
+                    def currentMin = null
+                    try {
+                        currentMin = cfg.minSdkVersion?.hasProperty('apiLevel')
+                                ? cfg.minSdkVersion.apiLevel
+                                : cfg.minSdkVersion
+                    } catch (Throwable ignore) {
+                        currentMin = null
+                    }
+                    if (currentMin == null || (currentMin as Integer) < 21) {
+                        cfg.minSdkVersion 21
                     }
                 }
             }
@@ -31,26 +70,12 @@ allprojects {
     }
 }
 
-rootProject.buildDir = "../build"
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.google.gms:google-services:4.4.2'
-    }
-}
-
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
+// clean 명령 정의
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}
+
+// 의존성 평가 순서 보장
+subprojects {
+    project.evaluationDependsOn(":app")
 }

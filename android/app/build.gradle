@@ -1,3 +1,5 @@
+// app/build.gradle
+
 plugins {
     id "com.android.application"
     // START: FlutterFire Configuration
@@ -9,47 +11,132 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// --------------------
+// 🔐 Keystore 설정 로드 (로컬 fallback용)
+// --------------------
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.yplantae.core.mod.laurus.a_yp_core_mod_laurus_client"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    ndkVersion "27.0.12077973"
 
     defaultConfig {
-        multiDexEnabled true
-    }
-
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = '11'
-    }
-
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.yplantae.core.mod.laurus.a_yp_core_mod_laurus_client"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdkVersion project.hasProperty('flutter.minSdkVersion') ? flutter.minSdkVersion : 24
+        minSdkVersion 24
         targetSdkVersion 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
+    }
+
+    // --------------------------------------------
+    // 🔒 Signing Configs — CI(GHA) + Local fallback
+    // --------------------------------------------
+    signingConfigs {
+        signingConfigs {
+            debug {
+                // 방금 만든 파일이 android/app/debug.jks 에 있으므로 바로 파일명만 적습니다.
+                storeFile file('../debug.jks')
+                storePassword 'Dkagh!2'
+                keyAlias 'yp_core_main_client_jks_key_alias'
+                keyPassword 'Dkagh!2'
+            }
+        }
+        release {
+            // 우선순위 1: CI 러너의 ~/.gradle/gradle.properties (phase2_install_android_keystore.sh)
+            def props = new Properties()
+            def gradlePropFile = new File(System.properties['user.home'] + "/.gradle/gradle.properties")
+            boolean applied = false
+
+            if (gradlePropFile.canRead()) {
+                props.load(new FileInputStream(gradlePropFile))
+
+                def hasAllCiKeys =
+                        props['RELEASE_STORE_FILE'] &&
+                                props['RELEASE_STORE_PASSWORD'] &&
+                                props['RELEASE_KEY_ALIAS'] &&
+                                props['RELEASE_KEY_PASSWORD']
+
+                if (hasAllCiKeys) {
+                    storeFile file(props['RELEASE_STORE_FILE'])
+                    storePassword props['RELEASE_STORE_PASSWORD']
+                    keyAlias props['RELEASE_KEY_ALIAS']
+                    keyPassword props['RELEASE_KEY_PASSWORD']
+                    println "[signing] Using CI-installed keystore at ${props['RELEASE_STORE_FILE']}"
+                    applied = true
+                } else {
+                    println "[warn] gradle.properties exists but some signing keys are missing. Will try local key.properties fallback."
+                }
+            }
+
+            // 우선순위 2: 로컬 개발자 fallback (key.properties)
+            if (!applied && keystorePropertiesFile.exists()) {
+                def hasAllLocalKeys =
+                        keystoreProperties['storeFile'] &&
+                                keystoreProperties['storePassword'] &&
+                                keystoreProperties['keyAlias'] &&
+                                keystoreProperties['keyPassword']
+
+                if (hasAllLocalKeys) {
+                    def storeFilePath = keystoreProperties['storeFile'] ?: "keystore.jks"
+                    storeFile rootProject.file(storeFilePath)
+                    storePassword keystoreProperties['storePassword']
+                    keyAlias keystoreProperties['keyAlias']
+                    keyPassword keystoreProperties['keyPassword']
+                    println "[signing] Using local developer keystore (key.properties: ${storeFilePath})"
+                    applied = true
+                } else {
+                    println "[warn] key.properties exists but some signing keys are missing."
+                }
+            }
+
+            // 우선순위 3: 어떤 설정도 적용되지 않음
+            if (!applied) {
+                println "[warn] No keystore configuration applied — release signing will fail unless provided by another mechanism."
+            }
+        }
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+
+            ndk {
+                // 필요시 SYMBOL_TABLE 또는 NONE 중 선택 (현재는 Flutter 쪽 심볼 스킵)
+                // debugSymbolLevel 'SYMBOL_TABLE'
+                // debugSymbolLevel 'NONE'
+            }
+
+            bundle {
+                language { enableSplit = false }
+                density  { enableSplit = false }
+                abi      { enableSplit = true  }
+            }
         }
     }
-}
 
-dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    // Java 및 Kotlin 버전을 17로 통일하여 버전 불일치 오류를 해결합니다.
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    // [제거됨] 릴리즈 시 산출물명 고정 블록
+    // applicationVariants.all { ... }
 }
 
 flutter {
@@ -59,11 +146,83 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Firebase BOM 및 구성
     implementation platform('com.google.firebase:firebase-bom:33.7.0')
     implementation 'com.google.firebase:firebase-analytics'
-
     implementation 'com.google.firebase:firebase-messaging:24.1.0'
+
+    // 멀티덱스 및 테스팅
     implementation 'androidx.multidex:multidex:2.0.1'
     androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+
+    // Java 8+ 기능 사용 지원
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+
+    // SplitInstallManager 관련
+    implementation 'com.google.android.play:core-common:2.0.3'
+}
+
+// Flutter 빌드 시스템에서 심볼 스트리핑을 건너뛰도록 명시합니다.
+project.ext.flutterBundleSkipsNativeSymbolTable = true
+
+// Flutter 프로젝트 루트(= android 상위 디렉터리)를 안전하게 계산
+def flutterRoot = rootDir.parentFile
+
+// ======================================================================
+// AAB/APK가 Flutter Tool에서 인식되도록 수동 복사 태스크 (필수)
+// ======================================================================
+
+// ---- 경로 정의 ----
+def flutterApkOut = layout.projectDirectory.dir(
+        flutterRoot.toPath().resolve("build/app/outputs/flutter-apk").toString()
+)
+def flutterAabOut = layout.projectDirectory.dir(
+        flutterRoot.toPath().resolve("build/app/outputs/bundle/release").toString()
+)
+def androidReleaseApkSrc = layout.buildDirectory.dir("outputs/apk/release")
+def androidDebugApkSrc   = layout.buildDirectory.dir("outputs/apk/debug")
+def androidReleaseAabSrc = layout.buildDirectory.dir("outputs/bundle/release")
+
+// ---- Release AAB 복사용 ----
+tasks.register("copyReleaseBundleForFlutter", Copy) {
+    from(androidReleaseAabSrc)
+    include("*.aab")
+    into(flutterAabOut)
+    rename { "app-release.aab" } // Flutter tool이 찾는 표준 이름
+}
+
+// ---- Release APK 복사용 ----
+// (flutter build apk --split-per-abi 용)
+tasks.register("copyReleaseApkForFlutter", Copy) {
+    from(androidReleaseApkSrc)
+    include("*.apk")
+    into(flutterApkOut)
+    // 이름 변경(rename) 안함: app-armeabi-v7a-release.apk 등 원본명 유지
+}
+
+// ---- Debug APK 복사용 ----
+tasks.register("copyDebugApkForFlutter", Copy) {
+    from(androidDebugApkSrc)
+    include("*.apk")
+    into(flutterApkOut)
+    rename { "app-debug.apk" } // Flutter tool이 찾는 표준 이름
+}
+
+// ---- 작업 연결 (release AAB/APK + debug APK 모두 보장) ----
+afterEvaluate {
+    // AAB: 릴리즈 번들링 후 .aab 복사
+    tasks.matching { it.name in ["signReleaseBundle", "packageReleaseBundle", "bundleRelease"] }.configureEach {
+        finalizedBy(tasks.named("copyReleaseBundleForFlutter"))
+    }
+
+    // APK (Release): 릴리즈 패키징/조립 후 .apk 복사
+    tasks.matching { it.name in ["packageRelease", "assembleRelease"] }.configureEach {
+        finalizedBy(tasks.named("copyReleaseApkForFlutter"))
+    }
+
+    // APK (Debug): 디버그 패키징/조립 후 .apk 복사
+    tasks.matching { it.name in ["packageDebug", "assembleDebug"] }.configureEach {
+        finalizedBy(tasks.named("copyDebugApkForFlutter"))
+    }
 }
